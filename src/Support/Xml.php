@@ -49,7 +49,8 @@ class Xml
      */
     public static function cdata(?string $string)
     {
-        return sprintf('<![CDATA[%s]]>', $string);
+        return $string;
+       // return sprintf('<![CDATA[%s]]>', $string);
     }
 
     /**

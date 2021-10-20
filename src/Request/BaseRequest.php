@@ -12,6 +12,7 @@ namespace Lmh\Payeco\Request;
 
 use Exception;
 use Lmh\PayEco\Support\SignatureFactory;
+use Lmh\Payeco\Support\StrUtil;
 use Lmh\Payeco\Support\Xml;
 
 abstract class BaseRequest
@@ -42,6 +43,9 @@ abstract class BaseRequest
     protected $transDetails;
 
     protected $requestPlainText;
+
+    public $detailFields = ["SN", "BANK_CODE", "ACC_NO", "ACC_NAME", "ACC_PROVINCE", "ACC_CITY", "AMOUNT", "MOBILE_NO", "PAY_STATE", "BANK_NO", "BANK_NAME", "ACC_TYPE", "ACC_PROP", "ID_TYPE", "ID_NO", "CNY", "EXCHANGE_RATE", "SETT_AMOUNT", "USER_LEVEL", "SETT_DATE", "REMARK", "RESERVE", "RETURN_URL", "MER_ORDER_NO", "MER_SEQ_NO", "QUERY_NO_FLAG", "TRANS_DESC", "SMS_CODE"];
+
 
     /**
      * @return string
@@ -117,37 +121,26 @@ abstract class BaseRequest
      */
     public function handle(): void
     {
-        $data = [
+        $requestData = [
             'VERSION' => $this->getVersion(),
-            'USER_NAME' => $this->getUserName(),
-            'BATCH_NO' => $this->getBatchNo(),
             'MSG_TYPE' => $this->getMsgType(),
+            'BATCH_NO' => $this->getBatchNo(),
+            'USER_NAME' => $this->getUserName(),
             'TRANS_STATE' => '',
-            'TRANS_DETAILS' => $this->getTransDetails()
         ];
-        $data['MSG_SIGN'] = SignatureFactory::getSigner()->sign($this->getSignText($data));
-        $this->requestPlainText = Xml::build($data);
+        $transDetails = $this->getTransDetails();
+        $transDetailsParams = [];
+        foreach ($transDetails as $detail) {
+            $params = [];
+            foreach ($this->detailFields as $field) {
+                $params[$field] = $detail[$field] ?? '';
+            }
+            $transDetailsParams[] = $params;
+        }
+        $requestData['TRANS_DETAILS'] = $transDetailsParams;
+        $requestData['MSG_SIGN'] = SignatureFactory::getSigner()->sign(StrUtil::getSignText($requestData));
+        $this->requestPlainText = Xml::build($requestData);
     }
 
-    /**
-     * @param array $data
-     * @return string
-     * @author lmh
-     */
-    public function getSignText(array $data): string
-    {
-        $sign = $data['BATCH_NO'];
-        $sign .= isset($data['USER_NAME']) ? " " . $data['USER_NAME'] : "";
-        $sign .= isset($data['MSG_TYPE']) ? " " . $data['MSG_TYPE'] : "";
-        $sign .= isset($data['TRANS_STATE']) ? " " . $data['TRANS_STATE'] : "";
-        foreach ($data['TRANS_DETAILS'] as $item) {
-            $sign .= isset($item['SN']) ? " " . $item['SN'] : "";
-            $sign .= isset($item['PAY_STATE']) ? " " . $item['PAY_STATE'] : "";
-            $sign .= isset($item['ACC_NO']) ? " " . $item['ACC_NO'] : "";
-            $sign .= isset($item['ACC_NAME']) ? " " . $item['ACC_NAME'] : "";
-            $sign .= isset($item['AMOUNT']) ? " " . $item['AMOUNT'] : "";
-            $sign .= isset($item['CNY']) ? " " . $item['CNY'] : "";
-        }
-        return trim($sign);
-    }
+
 }

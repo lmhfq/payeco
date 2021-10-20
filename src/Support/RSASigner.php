@@ -22,6 +22,10 @@ class RSASigner
      * @var string  商户公钥内容
      */
     private $certContent;
+    /**
+     * @var string 平台公钥内容
+     */
+    private $platformCertContent;
 
     /**
      * RSASigner constructor.
@@ -30,8 +34,9 @@ class RSASigner
      * @param string $keyContent
      * @param string $certificateFilename
      * @param string $certContent
+     * @param string $platformCertContent
      */
-    public function __construct(string $filepath = '', string $password = '', string $keyContent = '', string $certificateFilename = '', string $certContent = '')
+    public function __construct(string $filepath = '', string $password = '', string $keyContent = '', string $certificateFilename = '', string $certContent = '', string $platformCertContent = '')
     {
         if ($certContent) {
             $this->certContent = $certContent;
@@ -44,7 +49,9 @@ class RSASigner
             $pkcs12 = file_get_contents($filepath);
             openssl_pkcs12_read($pkcs12, $p12cert, $password);
             $this->keyContent = $p12cert["pkey"];
+            $this->certContent = $p12cert['cert'];
         }
+        $this->platformCertContent = $platformCertContent;
     }
 
     /**
@@ -85,15 +92,17 @@ class RSASigner
     /**
      * 公钥加密
      * @param $data
-     * @param $publicKey
      * @return string
      * @throws Exception
      * @author lmh
      */
-    public function encrypt($data, $publicKey): string
+    public function encrypt($data): string
     {
         $encrypted = '';
-        openssl_public_encrypt($data, $encrypted, $publicKey, OPENSSL_PKCS1_OAEP_PADDING);
+        if (!$this->platformCertContent) {
+            throw new Exception('平台证书配置错误');
+        }
+        openssl_public_encrypt($data, $encrypted, $this->platformCertContent, OPENSSL_PKCS1_PADDING);
         return base64_encode($encrypted);
     }
 
