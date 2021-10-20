@@ -36,8 +36,7 @@ class AES
     {
         $plaintext = $this->pkcs5Pad($plaintext, 8);
         if (strlen($plaintext) % 8) {
-            $plaintext = str_pad($plaintext,
-                strlen($plaintext) + 8 - strlen($plaintext) % 8, "\0");
+            $plaintext = str_pad($plaintext, strlen($plaintext) + 8 - strlen($plaintext) % 8, "\0");
         }
         $ciphertext = openssl_encrypt($plaintext, "DES-EDE3", $this->key, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING);
         return base64_encode($ciphertext);
@@ -84,49 +83,4 @@ class AES
         }
         return substr($text, 0, -1 * $pad);
     }
-
-    /**
-     * 数据加密
-     * @param $input
-     * @param string $otherKey
-     * @return string
-     * @author lmh
-     */
-    public function encrypt1($input, $otherKey = "")
-    {
-        $size = @mcrypt_get_block_size(MCRYPT_3DES, MCRYPT_MODE_ECB);
-        $input = $this->pkcs5Pad($input, $size);
-        $key = str_pad(($otherKey ? $otherKey : $this->key), 24, '0');
-        $td = @mcrypt_module_open(MCRYPT_3DES, '', 'ecb', '');
-        $iv = @mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-        @mcrypt_generic_init($td, $key, $iv);
-        $data = @mcrypt_generic($td, $input);
-        @mcrypt_generic_deinit($td);
-        @mcrypt_module_close($td);
-        $data = base64_encode($data);
-        return $data;
-    }
-
-    /**
-     * 数据解密
-     * @param $encrypted
-     * @param string $otherKey
-     * @return false|string
-     * @author lmh
-     */
-    public function decrypt1($encrypted, $otherKey = "")
-    {
-        $encrypted = base64_decode($encrypted);
-        $key = str_pad(($otherKey ? $otherKey : $this->key), 24, '0');
-        $td = @mcrypt_module_open(MCRYPT_3DES, '', 'ecb', '');
-        $iv = @mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-        $ks = @mcrypt_enc_get_key_size($td);
-        @mcrypt_generic_init($td, $key, $iv);
-        $decrypted = @mdecrypt_generic($td, $encrypted);
-        @mcrypt_generic_deinit($td);
-        @mcrypt_module_close($td);
-        $y = $this->pkcs5Unpacked($decrypted);
-        return $y;
-    }
-
 }
