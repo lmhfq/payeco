@@ -63,7 +63,6 @@ class RSASigner
     public function sign(string $plainText): string
     {
         $signature = "";
-
         try {
             openssl_sign($plainText, $signature, $this->keyContent, OPENSSL_ALGO_MD5);
         } catch (Exception $e) {

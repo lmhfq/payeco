@@ -46,11 +46,11 @@ abstract class BaseRequest
      */
     protected $sn;
     /**
-     * @var string
+     * @var string 卡号
      */
     protected $accNo;
     /**
-     * @var string
+     * @var string 开户名
      */
     protected $accName;
 
@@ -189,6 +189,9 @@ abstract class BaseRequest
         ];
         $transDetails = $this->getTransDetails();
         $transDetailsParams = [];
+        if (empty($transDetails) || !isset($transDetails[0])) {
+            $transDetails = [$transDetails];
+        }
         foreach ($transDetails as $detail) {
             $params = [];
             foreach ($this->detailFields as $field) {
