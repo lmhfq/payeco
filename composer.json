@@ -1,0 +1,38 @@
+{
+    "name": "lmh/payeco",
+    "description": "易联支付SDK",
+    "keywords" : ["易联支付","易联支付PHP"],
+    "authors": [
+        {
+            "name": "lmh",
+            "email": "lmh@weiyian.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "psr/log": "^1.0",
+        "monolog/monolog": "^1.25.5",
+        "pimple/pimple": "^3.0",
+        "guzzlehttp/guzzle": "^6.5",
+        "ext-openssl": "*",
+        "ext-mbstring": "*",
+        "ext-libxml": "*",
+        "ext-fileinfo": "*",
+        "ext-simplexml": "*",
+        "illuminate/support": "^5.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lmh\\Payeco\\": "src"
+        },
+        "files": []
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
+    }
+}
