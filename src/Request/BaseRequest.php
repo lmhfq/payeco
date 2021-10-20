@@ -30,22 +30,29 @@ abstract class BaseRequest
      */
     protected $msgType;
     /**
-     * @var string
+     * @var string 批次号
      */
     protected $batchNo;
     /**
      * @var string
      */
-    protected $msgSign;
-    /**
-     * @var array
-     */
-    protected $transDetails;
-
     protected $requestPlainText;
 
     public $detailFields = ["SN", "BANK_CODE", "ACC_NO", "ACC_NAME", "ACC_PROVINCE", "ACC_CITY", "AMOUNT", "MOBILE_NO", "PAY_STATE", "BANK_NO", "BANK_NAME", "ACC_TYPE", "ACC_PROP", "ID_TYPE", "ID_NO", "CNY", "EXCHANGE_RATE", "SETT_AMOUNT", "USER_LEVEL", "SETT_DATE", "REMARK", "RESERVE", "RETURN_URL", "MER_ORDER_NO", "MER_SEQ_NO", "QUERY_NO_FLAG", "TRANS_DESC", "SMS_CODE"];
 
+    /**
+     * $detailFields
+     * @var string 流水号 总长6—10位, 有字母要用大写
+     */
+    protected $sn;
+    /**
+     * @var string
+     */
+    protected $accNo;
+    /**
+     * @var string
+     */
+    protected $accName;
 
     /**
      * @return string
@@ -104,14 +111,66 @@ abstract class BaseRequest
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getRequestPlainText()
+    public function getRequestPlainText(): string
     {
-        return $this->requestPlainText;
+        return $this->requestPlainText ?: '';
     }
 
+    /**
+     * @return string
+     */
+    public function getSn(): string
+    {
+        return $this->sn ?: '';
+    }
 
+    /**
+     * @param string $sn
+     */
+    public function setSn(string $sn): void
+    {
+        $this->sn = $sn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccNo(): string
+    {
+        return $this->accNo ?: '';
+    }
+
+    /**
+     * @param string $accNo
+     */
+    public function setAccNo(string $accNo): void
+    {
+        $this->accNo = $accNo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccName(): string
+    {
+        return $this->accName ?: '';
+    }
+
+    /**
+     * @param string $accName
+     */
+    public function setAccName(string $accName): void
+    {
+        $this->accName = $accName;
+    }
+
+    /**
+     * 获取请求参数
+     * @return array
+     * @author lmh
+     */
     protected abstract function getTransDetails(): array;
 
     /**

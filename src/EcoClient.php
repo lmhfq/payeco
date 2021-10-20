@@ -32,6 +32,9 @@ class EcoClient extends ServiceContainer
      */
     public function execute(BaseRequest $request, BaseResponse $response): BaseResponse
     {
+        if (!$request->getUserName()) {
+            $request->setUserName($this->offsetGet("config")['userName']);
+        }
         SignatureFactory::setSigner(new RSASigner(
             $this->offsetGet("config")['keystoreFilename'],
             $this->offsetGet("config")['keystorePassword'],
@@ -49,7 +52,7 @@ class EcoClient extends ServiceContainer
             $logger->debug("请求原文：" . $request->getRequestPlainText());
         }
         //商户随机生成key，用3des对a进行加密，得到b；
-         $encodeKey = Str::random(24);
+        $encodeKey = Str::random(24);
         $aes = new AES($encodeKey);
         $reqBodyEnc = $aes->encrypt($request->getRequestPlainText());
         //商户使用易联公钥加密key，得到c；

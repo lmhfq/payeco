@@ -41,6 +41,10 @@ class BaseResponse
      */
     protected $batchNo;
     /**
+     * @var string
+     */
+    protected $remark;
+    /**
      * @var array
      */
     protected $transDetails = [];
@@ -67,6 +71,14 @@ class BaseResponse
     public function getBatchNo(): string
     {
         return $this->batchNo ?: '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemark(): string
+    {
+        return $this->remark ?: '';
     }
 
     /**
@@ -116,5 +128,6 @@ class BaseResponse
         $this->payState = $this->transDetails[0]['PAY_STATE'] ?? '';
         $this->userName = $this->responseData['USER_NAME'] ?? '';
         $this->batchNo = $this->responseData['BATCH_NO'] ?? '';
+        $this->remark = $this->transDetails[0]['REMARK'] ?? '';
     }
 }

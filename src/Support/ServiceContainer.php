@@ -56,6 +56,7 @@ class ServiceContainer extends Container
                 'path' => '/tmp/payeco.log',
                 'level' => 'debug',
             ],
+            'userName' => '',
             'keystoreFilename' => '',
             'keystorePassword' => '',
             'keyContent' => '',

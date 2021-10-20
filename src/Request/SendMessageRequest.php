@@ -22,22 +22,59 @@ class SendMessageRequest extends BaseRequest
      * @var string
      */
     protected $msgType = '500001';
+    /**
+     * @var string
+     */
+    protected $mobileNo;
+    /**
+     * @var string 用户收到的短信内容是：“短信验证码：xxxxxx，短信内容(TRANS_DESC)”
+     */
+    protected $transDesc;
 
+    /**
+     * @return string
+     */
+    public function getMobileNo(): string
+    {
+        return $this->mobileNo;
+    }
+
+    /**
+     * @param string $mobileNo
+     */
+    public function setMobileNo(string $mobileNo): void
+    {
+        $this->mobileNo = $mobileNo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransDesc(): string
+    {
+        return $this->transDesc;
+    }
+
+    /**
+     * @param string $transDesc
+     */
+    public function setTransDesc(string $transDesc): void
+    {
+        $this->transDesc = $transDesc;
+    }
+
+    /**
+     * @return array[]
+     * @author lmh
+     */
     protected function getTransDetails(): array
     {
         return [
-          [
-              'SN' => '',
-              'ACC_NO' => '6227003811930123783',
-              'ACC_NAME' => '',
-              'ID_NO' => '',
-              'MOBILE_NO' => '15558198113',
-              'AMOUNT' => '',
-              'CNY' => '',
-              'PAY_STATE' => '',
-              'MER_ORDER_NO' => '',
-              'TRANS_DESC' => '短信内容'
-          ]
+            [
+                'ACC_NO' => $this->getAccNo(),
+                'MOBILE_NO' => $this->getMobileNo(),
+                'TRANS_DESC' => $this->getTransDesc()
+            ]
         ];
     }
 }
