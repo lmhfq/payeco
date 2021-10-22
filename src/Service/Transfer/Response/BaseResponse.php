@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Time: 下午3:14
  */
 
-namespace Lmh\Payeco\Response;
+namespace Lmh\Payeco\Service\Transfer\Response;
 
 
 use Exception;
@@ -16,7 +16,7 @@ use Lmh\Payeco\Support\SignatureFactory;
 use Lmh\Payeco\Support\StrUtil;
 use Lmh\Payeco\Support\Xml;
 
-class TBaseResponse
+class BaseResponse
 {
     /**
      * @var string

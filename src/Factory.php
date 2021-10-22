@@ -10,18 +10,18 @@ declare(strict_types=1);
 namespace Lmh\Payeco;
 
 
+use Lmh\Payeco\Service\Transfer\Application;
+
 class Factory
 {
     /**
      * @param array $config
-     * @return EcoTClient
+     * @return Application
      * @author lmh
      */
-    public static function transfer(array $config = []): EcoTClient
+    public static function transfer(array $config = []): Application
     {
-        return new EcoTClient($config);
+        return new Application($config);
     }
-
-
 
 }

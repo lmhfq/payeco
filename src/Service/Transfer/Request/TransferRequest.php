@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Time: 下午3:48
  */
 
-namespace Lmh\Payeco\Request;
+namespace Lmh\Payeco\Service\Transfer\Request;
 
 /**
  * Class TransferRequest
@@ -16,7 +16,7 @@ namespace Lmh\Payeco\Request;
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/20
  */
-class TransferRequestT extends TBaseRequest
+class TransferRequest extends BaseRequest
 {
     protected $msgType = '100001';
     /**
@@ -68,6 +68,7 @@ class TransferRequestT extends TBaseRequest
     {
         return [
             [
+                'SN' => $this->getSn(),
                 'ACC_NO' => $this->getAccNo(),
                 'ACC_NAME' => $this->getAccName(),
                 'AMOUNT' => $this->getAmount(),

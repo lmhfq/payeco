@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Time: 下午3:12
  */
 
-namespace Lmh\Payeco\Request;
+namespace Lmh\Payeco\Service\Transfer\Request;
 
 
 use Exception;
@@ -15,7 +15,7 @@ use Lmh\PayEco\Support\SignatureFactory;
 use Lmh\Payeco\Support\StrUtil;
 use Lmh\Payeco\Support\Xml;
 
-abstract class TBaseRequest
+abstract class BaseRequest
 {
     /**
      * @var string
@@ -24,11 +24,11 @@ abstract class TBaseRequest
     /**
      * @var string
      */
-    protected $userName;
+    protected $msgType;
     /**
      * @var string
      */
-    protected $msgType;
+    protected $userName;
     /**
      * @var string 批次号
      */
@@ -203,6 +203,4 @@ abstract class TBaseRequest
         $requestData['MSG_SIGN'] = SignatureFactory::getSigner()->sign(StrUtil::getSignText($requestData));
         $this->requestPlainText = Xml::build($requestData);
     }
-
-
 }

@@ -4,26 +4,26 @@ declare(strict_types=1);
  * Created by PhpStorm.
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/20
- * Time: 下午3:37
+ * Time: 下午3:56
  */
 
-namespace Lmh\Payeco\Request;
+namespace Lmh\Payeco\Service\Transfer\Request;
 
 /**
- * Class TransactionQueryRequest
- * 批量代收查询（200002）查询代收、认证交易结果。
+ * Class TransferQueryRequest
+ * 批量代付查询（100002) 查询代付交易结果
  * @package Lmh\Payeco\Request
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/20
  */
-class TransactionQueryRequestT extends TBaseRequest
+class TransferQueryRequest extends BaseRequest
 {
-    protected $msgType = '200002';
-
+    protected $msgType = '100002';
     /**
-     * @return string[]
-     * @author lmh
+     * @var string
      */
+    protected $version = '2.1';
+
     protected function getTransDetails(): array
     {
         return [];
