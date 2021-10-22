@@ -15,7 +15,7 @@ namespace Lmh\Payeco\Request;
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/20
  */
-class AuthenticationQueryRequest extends BaseRequest
+class AuthenticationQueryRequestT extends TBaseRequest
 {
     protected $msgType = '300002';
 

@@ -16,7 +16,7 @@ namespace Lmh\Payeco\Request;
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/18
  */
-class SendMessageRequest extends BaseRequest
+class SendMessageRequestT extends TBaseRequest
 {
     /**
      * @var string

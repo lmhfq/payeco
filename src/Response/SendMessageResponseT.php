@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Response;
 
 
-use Lmh\Payeco\Response\BaseResponse;
+use Lmh\Payeco\Response\TBaseResponse;
 
-class SendMessageResponse extends BaseResponse
+class SendMessageResponseT extends TBaseResponse
 {
 
 }

@@ -17,7 +17,7 @@ namespace Lmh\Payeco\Request;
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/20
  */
-class AuthenticationCancelRequest extends BaseRequest
+class AuthenticationCancelRequestT extends TBaseRequest
 {
 
     protected $msgType = '300004';

@@ -23,17 +23,17 @@ class StrUtil
     public static function getSignText(array $data): string
     {
         $sign = !empty($data['BATCH_NO']) ? $data['BATCH_NO'] : '';
-        $sign .= !empty($data['USER_NAME']) ? " " . $data['USER_NAME'] : "";
-        $sign .= !empty($data['MSG_TYPE']) ? " " . $data['MSG_TYPE'] : "";
-        $sign .= !empty($data['TRANS_STATE']) ? " " . $data['TRANS_STATE'] : "";
+        $sign .= !empty($data['USER_NAME']) ? " " . $data['USER_NAME'] : '';
+        $sign .= !empty($data['MSG_TYPE']) ? " " . $data['MSG_TYPE'] : '';
+        $sign .= !empty($data['TRANS_STATE']) ? " " . $data['TRANS_STATE'] :'';
         if (isset($data['TRANS_DETAILS'])) {
             foreach ($data['TRANS_DETAILS'] as $item) {
                 $sign .= !empty($item['SN']) ? " " . $item['SN'] : "";
-                $sign .= !empty($item['PAY_STATE']) ? " " . $item['PAY_STATE'] : "";
-                $sign .= !empty($item['ACC_NO']) ? " " . $item['ACC_NO'] : "";
-                $sign .= !empty($item['ACC_NAME']) ? " " . $item['ACC_NAME'] : "";
-                $sign .= !empty($item['AMOUNT']) ? " " . $item['AMOUNT'] : "";
-                $sign .= !empty($item['CNY']) ? " " . $item['CNY'] : "";
+                $sign .= !empty($item['PAY_STATE']) ? " " . $item['PAY_STATE'] : '';
+                $sign .= !empty($item['ACC_NO']) ? " " . $item['ACC_NO'] :'';
+                $sign .= !empty($item['ACC_NAME']) ? " " . $item['ACC_NAME'] : '';
+                $sign .= !empty($item['AMOUNT']) ? " " . $item['AMOUNT'] : '';
+                $sign .= !empty($item['CNY']) ? " " . $item['CNY'] : '';
             }
         }
         return trim($sign);

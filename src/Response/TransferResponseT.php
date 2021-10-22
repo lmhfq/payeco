@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Lmh\Payeco\Response;
 
 
-class TransactionResponse extends BaseResponse
+class TransferResponseT extends TBaseResponse
 {
 
 }

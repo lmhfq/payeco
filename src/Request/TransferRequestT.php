@@ -16,9 +16,13 @@ namespace Lmh\Payeco\Request;
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/20
  */
-class TransferRequest extends BaseRequest
+class TransferRequestT extends TBaseRequest
 {
     protected $msgType = '100001';
+    /**
+     * @var string
+     */
+    protected $version = '2.1';
     /**
      * @var string 金额
      */

@@ -16,9 +16,13 @@ namespace Lmh\Payeco\Request;
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/20
  */
-class TransferQueryRequest extends BaseRequest
+class TransferQueryRequestT extends TBaseRequest
 {
     protected $msgType = '100002';
+    /**
+     * @var string
+     */
+    protected $version = '2.1';
 
     protected function getTransDetails(): array
     {

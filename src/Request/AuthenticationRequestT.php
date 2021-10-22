@@ -3,25 +3,23 @@ declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: lmh <lmh@weiyian.com>
- * Date: 2021/10/18
- * Time: 下午1:43
+ * Date: 2021/10/20
+ * Time: 下午1:40
  */
 
 namespace Lmh\Payeco\Request;
 
 /**
- *  * Class TransactionRequest
- * 批量代收（200001、200005）客户通过易联付款给商户，一般用于充值等
- * 一.代收接口同时可以做认证，需要认证的，证件号、证件类型、手机号必填。
- * 二.代收新用户外呼认证流程：
- * Class TransactionRequest
+ * Class AuthenticationRequest
+ * 认证（300001、300003）外呼验密，如果验密成功，则系统会绑定银行卡号、身份证号和姓名，下次可以直接扣款。
+ * 认证要素：卡号+姓名+身份证。3个要素要一致才会发起外呼，否则当失败处理，具体失败原因在REMARK字段说明。
  * @package Lmh\Payeco\Request
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/20
  */
-class TransactionRequest extends BaseRequest
+class AuthenticationRequestT extends TBaseRequest
 {
-    protected $msgType = '200001';
+    protected $msgType = '300001';
     /**
      * @var string 300001：填写一个1~5元之间的数值(例如：1.18)；不填写时随机取1~5元之间
      */
@@ -31,7 +29,7 @@ class TransactionRequest extends BaseRequest
      */
     protected $idNo;
     /**
-     * @var string 支付手机号，外呼认证拨打此号码
+     * @var string
      */
     protected $mobileNo;
     /**
@@ -51,16 +49,11 @@ class TransactionRequest extends BaseRequest
      */
     protected $returnUrl;
     /**
-     * @var string
-     */
-    protected $remark;
-
-    /**
      * @return string
      */
     public function getAmount(): string
     {
-        return $this->amount ?: '0.00';
+        return $this->amount;
     }
 
     /**
@@ -124,7 +117,7 @@ class TransactionRequest extends BaseRequest
      */
     public function getTransDesc(): string
     {
-        return $this->transDesc ?: '';
+        return $this->transDesc;
     }
 
     /**
@@ -133,22 +126,6 @@ class TransactionRequest extends BaseRequest
     public function setTransDesc(string $transDesc): void
     {
         $this->transDesc = $transDesc;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSmsCode(): string
-    {
-        return $this->smsCode ?: '';
-    }
-
-    /**
-     * @param string $smsCode
-     */
-    public function setSmsCode(string $smsCode): void
-    {
-        $this->smsCode = $smsCode;
     }
 
     /**
@@ -170,33 +147,35 @@ class TransactionRequest extends BaseRequest
     /**
      * @return string
      */
-    public function getRemark(): string
+    public function getSmsCode(): string
     {
-        return $this->remark ?: '';
+        return $this->smsCode ?: '';
     }
 
     /**
-     * @param string $remark
+     * @param string $smsCode
      */
-    public function setRemark(string $remark): void
+    public function setSmsCode(string $smsCode): void
     {
-        $this->remark = $remark;
+        $this->smsCode = $smsCode;
     }
 
     protected function getTransDetails(): array
     {
         return [
             [
+                'SN' => $this->getSn(),
+                'BANK_CODE' => '',
                 'ACC_NO' => $this->getAccNo(),
                 'ACC_NAME' => $this->getAccName(),
+//                'AMOUNT' => $this->getAmount(),
                 'ID_NO' => $this->getIdNo(),
                 'MOBILE_NO' => $this->getMobileNo(),
-                'AMOUNT' => $this->getAmount(),
                 'CNY' => 'CNY',
                 'RETURN_URL' => $this->getReturnUrl(),
+                'PAY_STATE' => '',
                 'MER_ORDER_NO' => $this->getMerOrderNo(),
                 'TRANS_DESC' => $this->getTransDesc(),
-                'REMARK' => $this->getRemark(),
                 'SMS_CODE' => $this->getSmsCode(),
             ]
         ];

@@ -6,8 +6,8 @@ namespace Lmh\Payeco;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Str;
-use Lmh\Payeco\Request\BaseRequest;
-use Lmh\Payeco\Response\BaseResponse;
+use Lmh\Payeco\Request\TBaseRequest;
+use Lmh\Payeco\Response\TBaseResponse;
 use Lmh\Payeco\Support\AES;
 use Lmh\Payeco\Support\RSASigner;
 use Lmh\Payeco\Support\ServiceContainer;
@@ -15,22 +15,23 @@ use Lmh\Payeco\Support\SignatureFactory;
 use Psr\Log\LoggerInterface;
 
 /**
+ * 易联代收付请求入口
  * Created by PhpStorm.
  * User: lmh <lmh@weiyian.com>
  * Date: 2021/10/18
  * Time: 下午2:04
  */
-class EcoClient extends ServiceContainer
+class EcoTClient extends ServiceContainer
 {
     /**
      * 执行请求
-     * @param BaseRequest $request
-     * @param BaseResponse $response
-     * @return BaseResponse
+     * @param TBaseRequest $request
+     * @param TBaseResponse $response
+     * @return TBaseResponse
      * @throws GuzzleException
      * @author lmh
      */
-    public function execute(BaseRequest $request, BaseResponse $response): BaseResponse
+    public function execute(TBaseRequest $request, TBaseResponse $response): TBaseResponse
     {
         if (!$request->getUserName()) {
             $request->setUserName($this->offsetGet("config")['userName']);

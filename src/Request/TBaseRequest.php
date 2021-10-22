@@ -15,7 +15,7 @@ use Lmh\PayEco\Support\SignatureFactory;
 use Lmh\Payeco\Support\StrUtil;
 use Lmh\Payeco\Support\Xml;
 
-abstract class BaseRequest
+abstract class TBaseRequest
 {
     /**
      * @var string
