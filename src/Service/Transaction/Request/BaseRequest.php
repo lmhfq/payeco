@@ -141,5 +141,4 @@ abstract class BaseRequest
         $this->requestMessage = array_merge(['TradeCode' => $this->getTradeCode()], $requestData);
         $this->requestPlainText = http_build_query($this->requestMessage);
     }
-
 }
