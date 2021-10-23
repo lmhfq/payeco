@@ -59,8 +59,8 @@ class Application extends ServiceContainer
         //商户使用易联公钥加密key，得到c；
         $reqKeyEnc = SignatureFactory::getSigner()->encrypt(base64_encode($encodeKey));
         //商户将报文组合b|c
-        $body = $reqBodyEnc . "|" . $reqKeyEnc;
-        $result = $this->request($body);
+        $params = $reqBodyEnc . "|" . $reqKeyEnc;
+        $result = $this->request($params);
         $result = explode("|", $result);
         $response->handle($result);
         if ($logger instanceof LoggerInterface && $this->offsetGet("config")['debug']) {
@@ -85,7 +85,7 @@ class Application extends ServiceContainer
             'body' => $data,
             'verify' => false
         ];
-        $response = $client->request('POST', 'https://testagent.payeco.com:9444/service', $options);
+        $response = $client->request('POST', '', $options);
         return $response->getBody()->getContents();
     }
 }

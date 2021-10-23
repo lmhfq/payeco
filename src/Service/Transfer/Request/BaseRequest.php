@@ -37,7 +37,9 @@ abstract class BaseRequest
      * @var string
      */
     protected $requestPlainText;
-
+    /**
+     * @var string[]
+     */
     public $detailFields = ["SN", "BANK_CODE", "ACC_NO", "ACC_NAME", "ACC_PROVINCE", "ACC_CITY", "AMOUNT", "MOBILE_NO", "PAY_STATE", "BANK_NO", "BANK_NAME", "ACC_TYPE", "ACC_PROP", "ID_TYPE", "ID_NO", "CNY", "EXCHANGE_RATE", "SETT_AMOUNT", "USER_LEVEL", "SETT_DATE", "REMARK", "RESERVE", "RETURN_URL", "MER_ORDER_NO", "MER_SEQ_NO", "QUERY_NO_FLAG", "TRANS_DESC", "SMS_CODE"];
 
     /**

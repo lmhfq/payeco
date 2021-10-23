@@ -10,9 +10,14 @@ declare(strict_types=1);
 namespace Lmh\Payeco\Service\Transaction;
 
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Lmh\Payeco\Service\Transaction\Request\BaseRequest;
 use Lmh\Payeco\Service\Transaction\Response\BaseResponse;
+use Lmh\Payeco\Support\RSASigner;
 use Lmh\Payeco\Support\ServiceContainer;
+use Lmh\Payeco\Support\SignatureFactory;
+use Psr\Log\LoggerInterface;
 
 class Application extends ServiceContainer
 {
@@ -28,14 +33,14 @@ class Application extends ServiceContainer
         if (!$request->getMerchantId()) {
             $request->setMerchantId($this->offsetGet("config")['merchantId']);
         }
-//        SignatureFactory::setSigner(new RSASigner(
-//            $this->offsetGet("config")['keystoreFilename'],
-//            $this->offsetGet("config")['keystorePassword'],
-//            $this->offsetGet("config")['keyContent'],
-//            $this->offsetGet("config")['certificateFilename'],
-//            $this->offsetGet("config")['certContent'],
-//            $this->offsetGet("config")['platformCertContent']
-//        ));
+        SignatureFactory::setSigner(new RSASigner(
+            $this->offsetGet("config")['keystoreFilename'],
+            $this->offsetGet("config")['keystorePassword'],
+            $this->offsetGet("config")['keyContent'],
+            $this->offsetGet("config")['certificateFilename'],
+            $this->offsetGet("config")['certContent'],
+            $this->offsetGet("config")['platformCertContent']
+        ));
         $request->handle();
         /**
          * @var LoggerInterface $logger
@@ -44,20 +49,36 @@ class Application extends ServiceContainer
         if ($logger instanceof LoggerInterface && $this->offsetGet("config")['debug']) {
             $logger->debug("请求原文：" . $request->getRequestPlainText());
         }
-        //商户随机生成key，用3des对a进行加密，得到b；
-        $encodeKey = Str::random(24);
-        $aes = new AES($encodeKey);
-        $reqBodyEnc = $aes->encrypt($request->getRequestPlainText());
-        //商户使用易联公钥加密key，得到c；
-        $reqKeyEnc = SignatureFactory::getSigner()->encrypt(base64_encode($encodeKey));
-        //商户将报文组合b|c
-        $body = $reqBodyEnc . "|" . $reqKeyEnc;
-        $result = $this->request($body);
-        $result = explode("|", $result);
+        $params = [
+            'data' => $request->getRequestMessage(),
+            'uri' => $request->getTradeUri()
+        ];
+        $result = $this->request($params);
         $response->handle($result);
         if ($logger instanceof LoggerInterface && $this->offsetGet("config")['debug']) {
             $logger->debug("响应原文：" . $response->getResponsePlainText());
         }
         return $response;
+    }
+
+
+    /**
+     * @param array $params
+     * @return string
+     * @throws GuzzleException
+     * @author lmh
+     */
+    private function request(array $params)
+    {
+        $client = new Client($this->offsetGet("config")['http']);
+        $options = [
+            'headers' => [
+                'Content-type' => 'application/x-www-form-urlencoded',
+            ],
+            'form_params' => $params['data'],
+            'verify' => false
+        ];
+        $response = $client->request('POST', $params['uri'], $options);
+        return $response->getBody()->getContents();
     }
 }
