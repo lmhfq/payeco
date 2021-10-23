@@ -16,13 +16,12 @@ class TradeRequest extends BaseRequest
      * @var string
      */
     protected $tradeCode = 'PayOrder';
-
     /**
      * @var string 商户订单号
      */
     protected $merchOrderId;
     /**
-     * @var string 单位为元
+     * @var string 商户订单金额 单位为元
      */
     protected $amount;
     /**
@@ -50,7 +49,7 @@ class TradeRequest extends BaseRequest
      */
     protected $extData;
     /**
-     * @var string
+     * @var string 手机号|VIP标识|用户ID|姓名|证件号码|银行卡号|开户省市|手机号码验证标识|认证快付协议标识|SIM卡卡号|设备机身号|MAC地址|LBS信息|证件类型|
      */
     protected $miscData;
     /**
@@ -99,7 +98,7 @@ class TradeRequest extends BaseRequest
      */
     public function getOrderDesc(): string
     {
-        return $this->orderDesc ?: '';;
+        return $this->orderDesc ?: '';
     }
 
     /**
@@ -115,7 +114,7 @@ class TradeRequest extends BaseRequest
      */
     public function getTradeTime(): string
     {
-        return $this->tradeTime ?: '';;
+        return $this->tradeTime ?: '';
     }
 
     /**
@@ -147,7 +146,7 @@ class TradeRequest extends BaseRequest
      */
     public function getNotifyUrl(): string
     {
-        return $this->notifyUrl ?: '';;
+        return $this->notifyUrl ?: '';
     }
 
     /**
@@ -163,7 +162,7 @@ class TradeRequest extends BaseRequest
      */
     public function getReturnUrl(): string
     {
-        return $this->returnUrl ?: '';;
+        return $this->returnUrl ?: '';
     }
 
     /**
@@ -240,7 +239,7 @@ class TradeRequest extends BaseRequest
 
     protected function getRequestData($encode = false): array
     {
-        $signData = [
+        $data = [
             'Version' => $this->getVersion(),
             'MerchantId' => $this->getMerchantId(),
             'MerchOrderId' => $this->getMerchOrderId(),
@@ -257,12 +256,12 @@ class TradeRequest extends BaseRequest
         ];
         //采用UTF-8的base64格式编码
         if ($encode) {
-            $signData['OrderDesc'] = base64_encode($signData['OrderDesc']);
-            $signData['ExtData'] = base64_encode($signData['ExtData']);
-            $signData['MiscData'] = base64_encode($signData['MiscData']);
-            $signData['NotifyUrl'] = urlencode($signData['NotifyUrl']);
-            $signData['ReturnUrl'] = urlencode($signData['ReturnUrl']);
+            $data['OrderDesc'] = base64_encode($data['OrderDesc']);
+            $data['ExtData'] = base64_encode($data['ExtData']);
+            $data['MiscData'] = base64_encode($data['MiscData']);
+            $data['NotifyUrl'] = urlencode($data['NotifyUrl']);
+            $data['ReturnUrl'] = urlencode($data['ReturnUrl']);
         }
-        return $signData;
+        return $data;
     }
 }

@@ -42,7 +42,7 @@ class BaseResponse
     }
 
 
-    public function handle(string $message)
+    public  function handle(string $message)
     {
         $this->responsePlainText = $message;
         $this->responseData = Xml::parse(str_replace('encoding="GBK"', 'encoding="UTF-8"', $this->responsePlainText));

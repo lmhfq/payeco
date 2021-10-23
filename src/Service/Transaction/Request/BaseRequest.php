@@ -10,16 +10,17 @@ declare(strict_types=1);
 namespace Lmh\Payeco\Service\Transaction\Request;
 
 
+use Exception;
 use Lmh\Payeco\Support\SignatureFactory;
 
 abstract class BaseRequest
 {
     /**
-     * @var string
+     * @var string 通讯协议版本号
      */
     protected $version = '2.0.0';
     /**
-     * @var string
+     * @var string 交易码
      */
     protected $tradeCode;
     /**
@@ -27,7 +28,7 @@ abstract class BaseRequest
      */
     protected $tradeUri = 'ppi/merchant/itf.do';
     /**
-     * @var string
+     * @var string 商户ID
      */
     protected $merchantId;
     /**
@@ -88,8 +89,6 @@ abstract class BaseRequest
     }
 
 
-
-
     /**
      * @return string
      */
@@ -126,18 +125,11 @@ abstract class BaseRequest
     protected abstract function getRequestData($encode = false): array;
 
     /**
-     * @return void
      * @throws Exception
      * @author lmh
      */
     public function handle(): void
     {
-//        $vars = get_object_vars($this);
-//
-//        $requestData = [];
-//        foreach ($vars as $key => $value) {
-//            $requestData[Str::studly($key)] = $value;
-//        }
         $signData = $this->getRequestData();
 
         $params = http_build_query($signData);

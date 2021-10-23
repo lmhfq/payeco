@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Lmh\Payeco\Constant;
 
 
-class TransStateCode
+class ResponseCode
 {
     /**
      * 接收成功类状态码，交易请求和交易查询请求返回的TRANS_STATE不代表订单状态，需要通过pay_state判断订单状态。。
