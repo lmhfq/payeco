@@ -132,13 +132,18 @@ abstract class BaseRequest
     {
         $signData = $this->getRequestData();
 
-        $params = http_build_query($signData);
-        $sign = SignatureFactory::getSigner()->sign($params);
+        $signText = http_build_query($signData);
+        $signText = urldecode($signText);
+
+        echo $signText;
+        echo "\n";
+        $sign = SignatureFactory::getSigner()->sign($signText);
 
         $requestData = $this->getRequestData(true);
-
         $requestData["Sign"] = $sign;
         $this->requestMessage = array_merge(['TradeCode' => $this->getTradeCode()], $requestData);
+
         $this->requestPlainText = http_build_query($this->requestMessage);
+        $this->requestPlainText = urldecode($this->requestPlainText);
     }
 }

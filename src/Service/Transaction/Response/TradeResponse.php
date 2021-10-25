@@ -28,21 +28,22 @@ class TradeResponse extends BaseResponse
     {
         parent::handle($message);
         if ($this->retCode == ResponseCode::SUCCESS) {
-            $body = Arr::get($this->responseData, 'body', []);
-            $this->orderId = Arr::get($body, 'OrderId');
-            $resSign = Arr::get($body, 'Sign');
+            $this->orderId = Arr::get( $this->body, 'OrderId');
+            $resSign = Arr::get( $this->body, 'Sign');
             $requestData = [
-                'Version' => Arr::get($body, 'Version'),
-                'MerchantId' => Arr::get($body, 'MerchantId'),
-                'MerchOrderId' => Arr::get($body, 'MerchOrderId'),
-                'Amount' => Arr::get($body, 'Amount'),
-                'TradeTime' => Arr::get($body, 'TradeTime'),
+                'Version' => Arr::get($this->body, 'Version'),
+                'MerchantId' => Arr::get($this->body, 'MerchantId'),
+                'MerchOrderId' => Arr::get($this->body, 'MerchOrderId'),
+                'Amount' => Arr::get($this->body, 'Amount'),
+                'TradeTime' => Arr::get($this->body, 'TradeTime'),
                 'OrderId' => $this->orderId,
-                'VerifyTime' => Arr::get($body, 'VerifyTime'),
+                'VerifyTime' => Arr::get($this->body, 'VerifyTime'),
             ];
             //验证签名
             $requestData["Sign"] = $resSign;
-            $this->redirectUrl = "/ppi/h5/plugin/itf.do?tradeId=h5Init&" . http_build_query($requestData);
+            $redirectParams = http_build_query($requestData);
+            $redirectParams = urldecode($redirectParams);
+            $this->redirectUrl = "/ppi/h5/plugin/itf.do?tradeId=h5Init&" .$redirectParams;
         }
     }
 }

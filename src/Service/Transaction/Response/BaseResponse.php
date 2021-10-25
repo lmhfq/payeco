@@ -12,6 +12,7 @@ namespace Lmh\Payeco\Service\Transaction\Response;
 
 use Exception;
 use Illuminate\Support\Arr;
+use Lmh\Payeco\Constant\ResponseCode;
 use Lmh\Payeco\Support\RSASigner;
 use Lmh\Payeco\Support\SignatureFactory;
 use Lmh\Payeco\Support\Xml;
@@ -43,6 +44,10 @@ class BaseResponse
      * @var array
      */
     protected $responseData;
+    /**
+     * @var string
+     */
+    protected $body = [];
 
     /**
      * @return string
@@ -85,7 +90,10 @@ class BaseResponse
         return $this->responsePlainText;
     }
 
-
+    /**
+     * @param string $message
+     * @author lmh
+     */
     public function handle(string $message)
     {
         $this->responsePlainText = $message;
@@ -93,6 +101,10 @@ class BaseResponse
         $head = $this->responseData['head'] ?? [];
         $this->retCode = Arr::get($head, 'retCode');
         $this->retMsg = Arr::get($head, 'retMsg');
+        if ($this->retCode == ResponseCode::SUCCESS) {
+            $this->body = Arr::get($this->responseData, 'body', []);
+            $this->merchantId = Arr::get($this->body, 'MerchantId');
+        }
     }
 
 

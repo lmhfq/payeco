@@ -64,6 +64,11 @@ class RSASigner
     {
         $signature = "";
         try {
+            if (strpos($this->keyContent, '-----') === false) {
+                $this->keyContent = "-----BEGIN RSA PRIVATE KEY-----\n" .
+                    wordwrap($this->keyContent, 64, "\n", true) .
+                    "\n-----END RSA PRIVATE KEY-----";
+            }
             openssl_sign($plainText, $signature, $this->keyContent, OPENSSL_ALGO_MD5);
         } catch (Exception $e) {
             throw new Exception('签名证书配置错误');
@@ -84,6 +89,11 @@ class RSASigner
         $signature = base64_decode($signature);
         if (!$this->certContent) {
             throw new Exception('签名证书配置错误');
+        }
+        if (strpos($this->certContent, '-----') === false) {
+            $this->certContent = "-----BEGIN PUBLIC KEY-----\n" .
+                wordwrap($this->certContent, 64, "\n", true) .
+                "\n-----END PUBLIC KEY-----";
         }
         return openssl_verify($plainText, $signature, $this->certContent, OPENSSL_ALGO_MD5);
     }

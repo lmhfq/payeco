@@ -15,11 +15,15 @@ class TradeRequest extends BaseRequest
     /**
      * @var string
      */
-    protected $tradeCode = 'PayOrder';
+    protected $tradeCode = 'PayByAccV2';
     /**
      * @var string 商户订单号
      */
     protected $merchOrderId;
+    /**
+     * @var string 商户行业编号 未上送此字段时，系统将使用商户配置中对应的行业
+     */
+    protected $industryId;
     /**
      * @var string 商户订单金额 单位为元
      */
@@ -43,10 +47,6 @@ class TradeRequest extends BaseRequest
     /**
      * @var string
      */
-    protected $returnUrl;
-    /**
-     * @var string
-     */
     protected $extData;
     /**
      * @var string 手机号|VIP标识|用户ID|姓名|证件号码|银行卡号|开户省市|手机号码验证标识|认证快付协议标识|SIM卡卡号|设备机身号|MAC地址|LBS信息|证件类型|
@@ -59,7 +59,15 @@ class TradeRequest extends BaseRequest
     /**
      * @var string
      */
-    protected $clientIp;
+    protected $smId;
+    /**
+     * @var string
+     */
+    protected $smCode;
+    /**
+     * @var string
+     */
+    protected $pwd;
 
     /**
      * @return string
@@ -75,6 +83,22 @@ class TradeRequest extends BaseRequest
     public function setMerchOrderId(string $merchOrderId): void
     {
         $this->merchOrderId = $merchOrderId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIndustryId(): string
+    {
+        return $this->industryId ?: '';
+    }
+
+    /**
+     * @param string $industryId
+     */
+    public function setIndustryId(string $industryId): void
+    {
+        $this->industryId = $industryId;
     }
 
     /**
@@ -160,22 +184,6 @@ class TradeRequest extends BaseRequest
     /**
      * @return string
      */
-    public function getReturnUrl(): string
-    {
-        return $this->returnUrl ?: '';
-    }
-
-    /**
-     * @param string $returnUrl
-     */
-    public function setReturnUrl(string $returnUrl): void
-    {
-        $this->returnUrl = $returnUrl;
-    }
-
-    /**
-     * @return string
-     */
     public function getExtData(): string
     {
         return $this->extData ?: '';
@@ -224,43 +232,77 @@ class TradeRequest extends BaseRequest
     /**
      * @return string
      */
-    public function getClientIp(): string
+    public function getSmId(): string
     {
-        return $this->clientIp ?: '';
+        return $this->smId;
     }
 
     /**
-     * @param string $clientIp
+     * @param string $smId
      */
-    public function setClientIp(string $clientIp): void
+    public function setSmId(string $smId): void
     {
-        $this->clientIp = $clientIp;
+        $this->smId = $smId;
     }
+
+    /**
+     * @return string
+     */
+    public function getSmCode(): string
+    {
+        return $this->smCode;
+    }
+
+    /**
+     * @param string $smCode
+     */
+    public function setSmCode(string $smCode): void
+    {
+        $this->smCode = $smCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPwd(): string
+    {
+        return $this->pwd ?: '';
+    }
+
+    /**
+     * @param string $pwd
+     */
+    public function setPwd(string $pwd): void
+    {
+        $this->pwd = $pwd;
+    }
+
 
     protected function getRequestData($encode = false): array
     {
         $data = [
             'Version' => $this->getVersion(),
             'MerchantId' => $this->getMerchantId(),
+            'IndustryId' => $this->getIndustryId(),
             'MerchOrderId' => $this->getMerchOrderId(),
             'Amount' => $this->getAmount(),
             'OrderDesc' => $this->getOrderDesc(),
             'TradeTime' => $this->getTradeTime(),
             'ExpTime' => $this->getExpTime(),
             'NotifyUrl' => $this->getNotifyUrl(),
-            'ReturnUrl' => $this->getReturnUrl(),
             'ExtData' => $this->getExtData(),
             'MiscData' => $this->getMiscData(),
             'NotifyFlag' => $this->getNotifyFlag(),
-            'ClientIp' => $this->getClientIp(),
+            'SmId' => $this->getSmId(),
+            'SmCode' => $this->getSmCode(),
+            'pwd' => $this->getPwd(),
         ];
         //采用UTF-8的base64格式编码
         if ($encode) {
             $data['OrderDesc'] = base64_encode($data['OrderDesc']);
-            $data['ExtData'] = base64_encode($data['ExtData']);
+            $data['ExtData'] = $data['ExtData'] ? base64_encode($data['ExtData']) : '';
             $data['MiscData'] = base64_encode($data['MiscData']);
             $data['NotifyUrl'] = urlencode($data['NotifyUrl']);
-            $data['ReturnUrl'] = urlencode($data['ReturnUrl']);
         }
         return $data;
     }

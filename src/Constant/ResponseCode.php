@@ -24,4 +24,8 @@ class ResponseCode
      * 重复交易，Batch_No重复。 建议通过查询请求根据卡号、金额判断
      */
     public const C0094 = '0094';
+    /**
+     * 发短信环节返回G044错误码，请更换短信凭证码。
+     */
+    public const G044 = 'G044';
 }
