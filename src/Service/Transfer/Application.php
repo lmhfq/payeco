@@ -52,12 +52,14 @@ class Application extends ServiceContainer
         if ($logger instanceof LoggerInterface && $this->offsetGet("config")['debug']) {
             $logger->debug("请求原文：" . $request->getRequestPlainText());
         }
+
         //商户随机生成key，用3des对a进行加密，得到b；
         $encodeKey = Str::random(24);
         $aes = new AES($encodeKey);
         $reqBodyEnc = $aes->encrypt($request->getRequestPlainText());
         //商户使用易联公钥加密key，得到c；
-        $reqKeyEnc = SignatureFactory::getSigner()->encrypt(base64_encode($encodeKey));
+        $encodeKey = base64_encode($encodeKey);
+        $reqKeyEnc = SignatureFactory::getSigner()->encrypt($encodeKey);
         //商户将报文组合b|c
         $params = $reqBodyEnc . "|" . $reqKeyEnc;
         $result = $this->request($params);
@@ -85,6 +87,7 @@ class Application extends ServiceContainer
             'body' => $data,
             'verify' => false
         ];
+
         $response = $client->request('POST', '', $options);
         return $response->getBody()->getContents();
     }

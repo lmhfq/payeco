@@ -110,17 +110,14 @@ class BaseResponse
 
     /**
      * 验证签名
-     * @param array $plain
+     * @param string $plainText
      * @param string $sign
-     * @param string $publicKey
+     * @return int
      * @throws Exception
      * @author lmh
      */
-    protected function signVerify(array $plain, string $sign, string $publicKey)
+    public function signVerify(string $plainText, string $sign): int
     {
-        $sign = str_replace(" ", "+", $sign);
-        SignatureFactory::setSigner(new RSASigner('', '', '', '', $publicKey));
-        $plainText = http_build_query($plain);
-        SignatureFactory::getSigner()->verify($plainText, $sign);
+        return SignatureFactory::getSigner()->verify($plainText, $sign);
     }
 }

@@ -105,19 +105,20 @@ class BaseResponse
     public function handle(array $result)
     {
         if (!isset($result[1])) {
-            throw new Exception('响应参数错误');
+            throw new Exception($result[0] ?? '响应参数错误');
         }
         //商户使用商户私钥，解密c，得到3des密钥明文key；
         $signer = SignatureFactory::getSigner();
         $decodeKey = $signer->decrypt($result[1]);
         //商户使用key对b进行解密，得到a
         $aes = new AES(base64_decode($decodeKey));
-        //商户使用易联公钥对a进行验签。
         $response = $aes->decrypt($result[0]);
         $this->responsePlainText = $response;
         $this->responseData = Xml::parse(str_replace('encoding="GBK"', 'encoding="UTF-8"', $this->responsePlainText));
         $msgSign = $this->responseData['MSG_SIGN'] ?? '';
-        $verify = $signer->verify(StrUtil::getSignText($this->responseData), $msgSign);
+        //商户使用易联公钥对a进行验签。
+        $plainText = StrUtil::getSignText($this->responseData);
+        $verify = $signer->verify($plainText, $msgSign);
         if (!$verify) {
             throw new Exception('签名验证失败');
         }
