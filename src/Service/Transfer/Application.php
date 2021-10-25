@@ -34,7 +34,7 @@ class Application extends ServiceContainer
     public function execute(BaseRequest $request, BaseResponse $response): BaseResponse
     {
         if (!$request->getUserName()) {
-            $request->setUserName($this->offsetGet("config")['merchantId']);
+            $request->setUserName($this->offsetGet("config")['userName']);
         }
         SignatureFactory::setSigner(new RSASigner(
             $this->offsetGet("config")['keystoreFilename'],
