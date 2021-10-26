@@ -18,19 +18,19 @@ class SendSmsCodeResponse extends BaseResponse
     /**
      * @var int
      */
-    protected $remain;
+    public $remain;
     /**
      * @var int
      */
-    protected $complated;
+    public $complated;
     /**
      * @var int
      */
-    protected $expTime;
+    public $expTime;
     /**
      * @var string
      */
-    protected $needPwd;
+    public $needPwd;
 
     public function handle(string $message)
     {

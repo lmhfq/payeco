@@ -64,9 +64,6 @@ class ServiceContainer extends Container
             'certContent' => '',
             'platformCertContent' => '',//平台公钥
         ];
-        if (isset($this->userConfig['sandbox']) && $this->userConfig['sandbox'] == true) {
-            $base['http']['base_uri'] = 'https://testagent.payeco.com:9444/service';
-        }
         return array_replace_recursive($base, $this->userConfig);
     }
 

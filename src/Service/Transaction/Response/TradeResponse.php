@@ -18,7 +18,7 @@ class TradeResponse extends BaseResponse
     /**
      * @var string 插件平台返回的订单系统订单号
      */
-    protected $orderId;
+    public $orderId;
 
     public function handle(string $message)
     {

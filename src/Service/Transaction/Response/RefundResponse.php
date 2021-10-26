@@ -10,7 +10,30 @@ declare(strict_types=1);
 namespace Lmh\Payeco\Service\Transaction\Response;
 
 
+use Illuminate\Support\Arr;
+use Lmh\Payeco\Constant\ResponseCode;
+
 class RefundResponse extends BaseResponse
 {
+    /**
+     * @var string 退款申请流水号
+     */
+    public $tsNo;
+    /**
+     * @var string 商户退款金额
+     */
+    public $amount;
 
+    /**
+     * @param string $message
+     * @author lmh
+     */
+    public function handle(string $message)
+    {
+        parent::handle($message);
+        if ($this->retCode == ResponseCode::SUCCESS) {
+            $this->tsNo = Arr::get($this->body, 'TsNo');
+            $this->amount = Arr::get($this->body, 'Amount');
+        }
+    }
 }

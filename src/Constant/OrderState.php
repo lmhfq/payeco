@@ -12,7 +12,6 @@ namespace Lmh\Payeco\Constant;
 
 class OrderState
 {
-
     /**
      * 未支付
      */
@@ -33,4 +32,12 @@ class OrderState
      * 退款中
      */
     public const REFUNDING = '07';
+    /**
+     * 已被商户撤销
+     */
+    public const REFUND_CANCEL = '08';
+    /**
+     * 退款成功、已退货
+     */
+    public const REFUND_SUCCESS = '12';
 }
