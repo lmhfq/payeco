@@ -41,7 +41,10 @@ class TradeData
      * @var string
      */
     public $amount = '';
-
+    /**
+     * @var string 需要商户保证唯一性；重新发送短信传递相同的【短信凭证号】，发短信环节返回G044错误码，请更换短信凭证码。
+     */
+    public $smId;
 
     /**
      * 获取订单订单扩展信息
