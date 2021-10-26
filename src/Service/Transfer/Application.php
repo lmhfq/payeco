@@ -52,7 +52,6 @@ class Application extends ServiceContainer
         if ($logger instanceof LoggerInterface && $this->offsetGet("config")['debug']) {
             $logger->debug("请求原文：" . $request->getRequestPlainText());
         }
-
         //商户随机生成key，用3des对a进行加密，得到b；
         $encodeKey = Str::random(24);
         $aes = new AES($encodeKey);

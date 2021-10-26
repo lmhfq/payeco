@@ -118,6 +118,7 @@ class BaseResponse
         $msgSign = $this->responseData['MSG_SIGN'] ?? '';
         //商户使用易联公钥对a进行验签。
         $plainText = StrUtil::getSignText($this->responseData);
+
         $verify = $signer->verify($plainText, $msgSign);
         if (!$verify) {
             throw new Exception('签名验证失败');
