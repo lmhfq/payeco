@@ -54,7 +54,6 @@ class Application extends ServiceContainer
             'data' => $request->getRequestMessage(),
             'uri' => $request->getTradeUri()
         ];
-        echo $request->getRequestPlainText();        echo "\n";
         $result = $this->request($params);
         $response->handle($result);
         if ($logger instanceof LoggerInterface && $this->offsetGet("config")['debug']) {

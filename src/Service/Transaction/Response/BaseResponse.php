@@ -13,7 +13,6 @@ namespace Lmh\Payeco\Service\Transaction\Response;
 use Exception;
 use Illuminate\Support\Arr;
 use Lmh\Payeco\Constant\ResponseCode;
-use Lmh\Payeco\Support\RSASigner;
 use Lmh\Payeco\Support\SignatureFactory;
 use Lmh\Payeco\Support\Xml;
 
@@ -48,6 +47,22 @@ class BaseResponse
      * @var string
      */
     protected $body = [];
+
+    /**
+     * @return string
+     */
+    public function getRetCode(): string
+    {
+        return $this->retCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRetMsg(): string
+    {
+        return $this->retMsg;
+    }
 
     /**
      * @return string
