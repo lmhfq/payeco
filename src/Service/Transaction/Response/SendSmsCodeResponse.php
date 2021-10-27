@@ -24,7 +24,7 @@ class SendSmsCodeResponse extends BaseResponse
      */
     protected $complated;
     /**
-     * @var int
+     * @var string
      */
     protected $expTime;
     /**
@@ -49,11 +49,11 @@ class SendSmsCodeResponse extends BaseResponse
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getExpTime(): int
+    public function getExpTime(): string
     {
-        return intval($this->expTime);
+        return $this->expTime;
     }
 
     /**
