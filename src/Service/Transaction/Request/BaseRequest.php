@@ -135,6 +135,7 @@ abstract class BaseRequest
         $signText = http_build_query($signData);
         $signText = urldecode($signText);
 
+
         $sign = SignatureFactory::getSigner()->sign($signText);
 
         $requestData = $this->getRequestData(true);

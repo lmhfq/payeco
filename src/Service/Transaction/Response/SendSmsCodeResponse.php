@@ -18,19 +18,52 @@ class SendSmsCodeResponse extends BaseResponse
     /**
      * @var int
      */
-    public $remain;
+    protected $remain;
     /**
      * @var int
      */
-    public $complated;
+    protected $complated;
     /**
      * @var int
      */
-    public $expTime;
+    protected $expTime;
     /**
-     * @var string
+     * @var int
      */
-    public $needPwd;
+    protected $needPwd;
+
+    /**
+     * @return int
+     */
+    public function getRemain(): int
+    {
+        return intval($this->remain);
+    }
+
+    /**
+     * @return int
+     */
+    public function getComplated(): int
+    {
+        return intval($this->complated);
+    }
+
+    /**
+     * @return int
+     */
+    public function getExpTime(): int
+    {
+        return intval($this->expTime);
+    }
+
+    /**
+     * @return int
+     */
+    public function getNeedPwd(): int
+    {
+        return intval($this->needPwd);
+    }
+
 
     public function handle(string $message)
     {
