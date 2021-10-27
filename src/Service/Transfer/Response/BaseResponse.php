@@ -60,6 +60,30 @@ class BaseResponse
     /**
      * @return string
      */
+    public function getTransState(): string
+    {
+        return $this->transState;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPayState(): string
+    {
+        return $this->payState;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTransDetails(): array
+    {
+        return $this->transDetails;
+    }
+
+    /**
+     * @return string
+     */
     public function getUserName(): string
     {
         return $this->userName ?: '';
