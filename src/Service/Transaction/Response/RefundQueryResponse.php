@@ -65,7 +65,7 @@ class RefundQueryResponse extends BaseResponse
      */
     public function getRefundTime(): string
     {
-        return $this->refundTime;
+        return $this->refundTime ?: '';
     }
 
     /**
