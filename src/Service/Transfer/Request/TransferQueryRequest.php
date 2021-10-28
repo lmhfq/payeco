@@ -26,6 +26,10 @@ class TransferQueryRequest extends BaseRequest
 
     protected function getTransDetails(): array
     {
-        return [];
+        return [
+            [
+                'BATCH_NO' => $this->getBatchNo()
+            ]
+        ];
     }
 }
