@@ -18,23 +18,63 @@ class RefundQueryResponse extends BaseResponse
     /**
      * @var string 退款申请流水号
      */
-    public $tsNo;
+    protected $tsNo;
     /**
      * @var string 商户退款金额
      */
-    public $amount;
+    protected $amount;
     /**
      * @var string 商户退款申请号
      */
-    public $merchRefundId;
+    protected $merchRefundId;
     /**
      * @var string 退款成功时间
      */
-    public $refundTime;
+    protected $refundTime;
     /**
      * @var string 02申请中，08已撤销，12已退货
      */
-    public $status;
+    protected $status;
+
+    /**
+     * @return string
+     */
+    public function getTsNo(): string
+    {
+        return $this->tsNo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmount(): string
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchRefundId(): string
+    {
+        return $this->merchRefundId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRefundTime(): string
+    {
+        return $this->refundTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
 
     /**
      * @param string $message

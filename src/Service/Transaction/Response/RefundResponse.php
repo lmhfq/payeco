@@ -18,11 +18,27 @@ class RefundResponse extends BaseResponse
     /**
      * @var string 退款申请流水号
      */
-    public $tsNo;
+    protected $tsNo;
     /**
      * @var string 商户退款金额
      */
-    public $amount;
+    protected $amount;
+
+    /**
+     * @return string
+     */
+    public function getTsNo(): string
+    {
+        return $this->tsNo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmount(): string
+    {
+        return $this->amount;
+    }
 
     /**
      * @param string $message
