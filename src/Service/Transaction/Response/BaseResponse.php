@@ -121,18 +121,4 @@ class BaseResponse
             $this->merchantId = Arr::get($this->body, 'MerchantId');
         }
     }
-
-
-    /**
-     * 验证签名
-     * @param string $plainText
-     * @param string $sign
-     * @return int
-     * @throws Exception
-     * @author lmh
-     */
-    public function signVerify(string $plainText, string $sign): int
-    {
-        return SignatureFactory::getSigner()->verify($plainText, $sign);
-    }
 }
