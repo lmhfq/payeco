@@ -138,7 +138,7 @@ class TransferRequest extends BaseRequest
      */
     public function getCardNo(): string
     {
-        return $this->cardNo;
+        return $this->cardNo ?: '';
     }
 
     /**
